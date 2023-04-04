@@ -396,6 +396,27 @@ def pix_to_mm(img, scale):
     return pix_to_mm
 
 
+def define_window(img, scale):
+    def click_event(event, x, y, flags, params):
+        if event == cv2.EVENT_LBUTTONDOWN:
+            points_i = (x, y)
+            points.append(points_i)
+            cv2.circle(img, (x, y), radius=4, color=(0, 0, 255), thickness=-1)
+            cv2.imshow('image', img)
+            if len(points) >= 2:
+                cv2.line(img, (points[-1]), (points[-2]), (0, 255, 0), thickness=2, lineType=8)
+                cv2.circle(img, (points[-1]), radius=4, color=(0, 0, 255), thickness=-1)
+                cv2.circle(img, (points[-2]), radius=4, color=(0, 0, 255), thickness=-1)
+            cv2.imshow('image', img)
+
+    cv2.imshow('image', img)
+    points = []
+    cv2.setMouseCallback('image', click_event)
+    cv2.waitKey(0)
+    window_left_0, window_right_0 = np.abs(points[-1][0] / scale), np.abs(points[-2][0] / scale)
+    cv2.destroyAllWindows()
+    return window_left_0, window_right_0
+
 def sparse_DD(Nx, dx):
     data = np.ones((3, Nx))
     data[1] = -2 * data[1]
@@ -500,15 +521,6 @@ def Dxx(DD, f):
 def Dx(D, f):
     d_f = D @ f
     return d_f
-
-def sparse_D(Nx):
-    data = np.ones((2, Nx))
-    data[1] = -data[1]
-    diags = [1, 0]
-    D2 = sparse.spdiags(data, diags, Nx, Nx)
-    D2 = sparse.lil_matrix(D2)
-    D2[-1, -1] = 0
-    return D2
 
 
 def x_1_to_x_2(x):
