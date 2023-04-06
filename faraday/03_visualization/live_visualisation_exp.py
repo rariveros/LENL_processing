@@ -44,4 +44,4 @@ if __name__ == "__main__":
                                    interval=100,
                                    blit=True)
     #plt.show()
-    ani.save(directory + "/faraday_ani.gif", dpi=300, writer=PillowWriter(fps=25))
+    ani.save(directory + "/faraday_anim.gif", dpi=300, writer=PillowWriter(fps=25))
