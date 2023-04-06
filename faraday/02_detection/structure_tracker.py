@@ -5,7 +5,7 @@ from back_process import *
 if __name__ == "__main__":
     test_directory = "C:/Users/research/LENL_processing/faraday/tests/test_tracker"
 
-    mode = "fronts" #solitons or fronts
+    mode = "solitons" #solitons or fronts
 
     root = tk.Tk()
     root.withdraw()
@@ -17,15 +17,15 @@ if __name__ == "__main__":
     reference_image = filedialog.askopenfilename(parent=root, initialdir=directory, title='Reference Selection')
     img_reference = cv2.imread(str(reference_image))
 
-    Z = np.loadtxt(directory + '/Z.txt', delimiter=',')
-    x_grid = np.loadtxt(directory + '/x_grid.txt', delimiter=',')
-    y_grid = np.loadtxt(directory + '/y_grid.txt', delimiter=',')
+    Z = np.loadtxt(directory + '/Z_mm_stroboscopic.txt', delimiter=',')
+    x_grid = np.loadtxt(directory + '/T_stroboscopic.txt', delimiter=',')
+    y_grid = np.loadtxt(directory + '/X_mm.txt', delimiter=',')
 
     Nx = len(x_grid)
     Ny = len(y_grid)
     dx = x_grid[1] - x_grid[0]
 
-    resize_scale = 1
+    resize_scale = 0.5
     h, w, c = img_reference.shape
     h_resized, w_resized = h * resize_scale, w * resize_scale
     resized_img = cv2.resize(img_reference, (int(w_resized), int(h_resized)))

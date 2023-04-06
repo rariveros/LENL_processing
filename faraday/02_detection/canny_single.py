@@ -45,8 +45,8 @@ if __name__ == "__main__":
     img_crop = img_reference[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
     img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
     Ny, Nx = img_gray.shape
-    threshold_01 = 140
-    threshold_02 = 110
+    threshold_01 = 130
+    threshold_02 = 90
 
 
     ### Binarize images with 0 and 1 ###
@@ -69,8 +69,8 @@ if __name__ == "__main__":
         img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
         img_canned = cv2.Canny(img_blur, threshold_01, threshold_02)
         #plt.plot(img_canned[:, i])
-        #plt.imshow(img_canned)
-        #plt.show()
+        plt.imshow(img_canned)
+        plt.show()
         Z_i = []
         #print('i=' + str(i))
         for j in range(Nx):

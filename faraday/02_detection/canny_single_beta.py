@@ -48,17 +48,14 @@ if __name__ == "__main__":
     img_crop = img_reference[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
     img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
     Ny, Nx = img_gray.shape
-    threshold_01 = 140
-    threshold_02 = 110
+    threshold_01 = 180
+    threshold_02 = 120
     radius = 20
-
-
-    ### Binarize images with 0 and 1 ###
-    img_binarized = cv2.threshold(img_gray, thresh, 255, cv2.THRESH_BINARY)[1]
-    img_binary = img_binarized / 255
+    gamma = 3.5 #1.0
+    alpha = 10 #1.0
+    beta = -20 #0.0
 
     ### Se genera un operador similar a Dx sparse y un vector contador ###
-    D = sparse_D(Ny)
     enumerate_array = np.arange(Ny)[::-1]
     ones_array = np.ones(Ny)
     # Midiendo tiempo inicial
@@ -70,10 +67,17 @@ if __name__ == "__main__":
     for i in range(N_img):
         img_i = cv2.imread(file + '/' + IMG_names[i])
         img_crop = img_i[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
-        img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
+        img_processed = image_corrections(img_crop, alpha, beta, gamma)
+        img_gray = cv2.cvtColor(img_processed, cv2.COLOR_BGR2GRAY)
         img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
         img_canned = cv2.Canny(img_blur, threshold_01, threshold_02)
         #plt.plot(img_canned[:, i])
+        #plt.imshow(img_processed)
+        #plt.show()
+        #plt.close()
+        #plt.imshow(img_blur)
+        #plt.show()
+        #plt.close()
         #plt.imshow(img_canned)
         #plt.show()
         Z_i = []

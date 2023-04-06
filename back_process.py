@@ -36,6 +36,7 @@ import time
 import winsound
 import datetime
 #from matplotlib.colors import DivergingNorm
+import matplotlib.colors as colors
 from scipy.signal import hilbert, chirp
 from scipy.optimize import fsolve
 from numpy import unravel_index
@@ -551,3 +552,12 @@ def fluid_pdnls_parameters(f_i, a_ang, d):
     beta = (k ** 2 / 64) * (6 * tau ** 2 - 5 + 16 * tau ** (-2) - 9 * tau ** (-4))  # término no lineal
     nu = 0.5 * ((w / w_1) ** 2 - 1)
     return alpha, beta, nu, gamma
+
+
+def image_corrections(img, alpha, beta, gamma):
+    lookUpTable = np.empty((1, 256), np.uint8)
+    for i in range(256):
+        lookUpTable[0, i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
+    res = cv2.LUT(img, lookUpTable)
+    res = cv2.convertScaleAbs(res, alpha=alpha, beta=beta)
+    return res

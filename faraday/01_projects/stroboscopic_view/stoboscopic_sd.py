@@ -5,10 +5,10 @@ if __name__ == '__main__':
 
     ###    Abriendo archivos    ###
     disco = 'E'
-    initial_dir_data = str(disco) + ':/Users/mnustes_science/'
+    initial_dir_data = str(disco) + ':/mnustes_science/experimental_data'
     root = tk.Tk()
     root.withdraw()
-    directory = filedialog.askdirectory(parent=root, initialdir="r" + initial_dir_data, title='Elección de carpeta')
+    directory = filedialog.askdirectory(parent=root, initialdir=initial_dir_data, title='Elección de carpeta')
 
     X_mm = np.loadtxt(directory + '/X_mm.txt', delimiter=',')
     X_mm = X_mm #* (30 / 40)
@@ -45,6 +45,7 @@ if __name__ == '__main__':
         Z_strobo.append(Z_strobo_i)
         T_strobo.append(T_s[T_window_length * i])
     Z_strobo_np = np.array(Z_strobo)
+    T_strobo_np = np.array(T_strobo)
 
     alpha, beta, nu, gamma = fluid_pdnls_parameters(f_i, a, d=20)
     sigma = 18.46 * n_pistones
@@ -54,6 +55,9 @@ if __name__ == '__main__':
     nu_str = str(nu).split(".")[0] + '.' + str(nu).split(".")[1][0:3]
     gamma_str = str(gamma).split(".")[0] + '.' + str(gamma).split(".")[1][0:3]
     sigma_str = str(sigma).split(".")[0] + '.' + str(sigma).split(".")[1][0:1]
+
+    np.savetxt(directory + '/T_stroboscopic.txt', T_strobo_np, delimiter=',')
+    np.savetxt(directory + '/Z_mm_stroboscopic.txt', Z_strobo_np, delimiter=',')
 
 
     ###    Generando y guardando espaciotemporal de vista estroboscopica     ###
