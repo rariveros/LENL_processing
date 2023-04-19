@@ -48,7 +48,7 @@ if __name__ == '__main__':
     T_strobo_np = np.array(T_strobo)
 
     alpha, beta, nu, gamma = fluid_pdnls_parameters(f_i, a, d=20)
-    sigma = 18.46 * n_pistones
+    sigma = 18.46 * n_pistones #aaaaaaaaaaaaa
 
     alpha_str = str(alpha).split(".")[0] + '.' + str(alpha).split(".")[1][0:3]
     beta_str = str(beta).split(".")[0] + '.' + str(beta).split(".")[1][0:5]
