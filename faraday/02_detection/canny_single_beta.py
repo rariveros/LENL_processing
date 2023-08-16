@@ -5,15 +5,15 @@ from back_process import *
 if __name__ == "__main__":
 
     ### Definiendo parametros y eligiendo carpeta a detectar ###
-    disco = 'E:'
-    project_file = 'PT_01'
+    disco = 'D:'
+    project_file = 'OSC'
     initial_dir_img = str(disco) + '/mnustes_science/images'
     initial_dir_data = str(disco) + '/mnustes_science/experimental_data'
     root = tk.Tk()
     root.withdraw()
     file = filedialog.askdirectory(parent=root, initialdir=initial_dir_img, title='Elección de carpeta')
     parent_file_name = os.path.basename(file)
-    save_directory = 'E:/mnustes_science/experimental_data/' + project_file + '/' + parent_file_name
+    save_directory = disco + '/mnustes_science/experimental_data/' + project_file + '/' + parent_file_name
     IMG_names = os.listdir(file)
     N_img = len(IMG_names)
     resize_scale = 1
@@ -36,6 +36,7 @@ if __name__ == "__main__":
     cut_coords = cv2.selectROI(resized_img)
     cv2.destroyAllWindows()
 
+
     FC_mm = pix_to_mm(resized_img, resize_scale)
     IL_L, IL_R = injection_length(resized_img, resize_scale)
 
@@ -48,8 +49,8 @@ if __name__ == "__main__":
     img_crop = img_reference[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
     img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
     Ny, Nx = img_gray.shape
-    threshold_01 = 180
-    threshold_02 = 120
+    threshold_01 = 80
+    threshold_02 = 30
     radius = 20
     gamma = 3.5 #1.0
     alpha = 10 #1.0

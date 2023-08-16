@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     file_name = os.path.basename(directory)
     name_list = file_name.split("_")
-    notation = 'fa'
+    notation = 'af'
     if notation == 'fa':
         forcing_freq = float(name_list[0].split("=")[-1])
         a = float(name_list[1].split("=")[-1])
@@ -45,6 +45,7 @@ if __name__ == '__main__':
     initial_window_size = 30   # Numero PAR
     Z_strobo = []
     T_strobo = []
+    I_strobo = []
     n = 0
     while i_max < Nt - 5 * period_fps:
         window = Z_mm[int(i_max - period_error_range / 2):int(i_max + period_error_range / 2), int(j_max - initial_window_size / 2):int(j_max + initial_window_size / 2)]
@@ -57,12 +58,14 @@ if __name__ == '__main__':
             print(j_max_Z)
         Z_strobo.append(Z_mm[int(i_max_Z), :])
         T_strobo.append(T_s[int(i_max_Z)])
-        Z_strobo_np = np.array(Z_strobo)
-        T_strobo_np = np.array(T_strobo)
+        I_strobo.append(int(i_max_Z))
         i_max = i_max_Z
         j_max = j_max_Z
         n = n + 1
         print(n)
+    Z_strobo_np = np.array(Z_strobo)
+    T_strobo_np = np.array(T_strobo)
+    I_strobo_np = np.array(I_strobo)
 
     ###    Filtros para visualización    ###
     Z_strobo_np = filtro_superficie(Z_strobo_np, 10, 'X')
@@ -73,6 +76,7 @@ if __name__ == '__main__':
         Z_strobo_np[Z_strobo_np < 0] = 0
     np.savetxt(directory + '/T_stroboscopic.txt', T_strobo_np, delimiter=',')
     np.savetxt(directory + '/Z_mm_stroboscopic.txt', Z_strobo_np, delimiter=',')
+    np.savetxt(directory + '/I_stroboscopic.txt', I_strobo_np, delimiter=',')
 
     ###    Generando y guardando espaciotemporal de vista estroboscopica     ###
     norm = TwoSlopeNorm(vmin=-np.amax(Z_strobo_np), vcenter=0, vmax=np.amax(Z_strobo_np)) # pattern o multi-soliton

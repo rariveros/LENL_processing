@@ -3,7 +3,7 @@ from back_process import *
 
 
 if __name__ == "__main__":
-    test_directory = "C:/Users/research/LENL_processing/faraday/tests/test_tracker"
+    test_directory = "D:/mnustes_science/simulation_data/FD/aa"
 
     mode = "solitons" #solitons or fronts
 
@@ -17,15 +17,19 @@ if __name__ == "__main__":
     reference_image = filedialog.askopenfilename(parent=root, initialdir=directory, title='Reference Selection')
     img_reference = cv2.imread(str(reference_image))
 
-    Z = np.loadtxt(directory + '/Z_mm_stroboscopic.txt', delimiter=',')
-    x_grid = np.loadtxt(directory + '/T_stroboscopic.txt', delimiter=',')
-    y_grid = np.loadtxt(directory + '/X_mm.txt', delimiter=',')
+    Z_r = np.loadtxt(directory + '/field_real.txt', delimiter=',')
+    Z_i = np.loadtxt(directory + '/field_img.txt', delimiter=',')
+    x_grid = np.loadtxt(directory + '/X.txt', delimiter=',')
+    y_grid = np.loadtxt(directory + '/T.txt', delimiter=',')
+
+    Z_complex = Z_r + 1j * Z_i
+    Z = np.absolute(Z_complex)
 
     Nx = len(x_grid)
     Ny = len(y_grid)
     dx = x_grid[1] - x_grid[0]
 
-    resize_scale = 0.5
+    resize_scale =0.4
     h, w, c = img_reference.shape
     h_resized, w_resized = h * resize_scale, w * resize_scale
     resized_img = cv2.resize(img_reference, (int(w_resized), int(h_resized)))
@@ -42,14 +46,18 @@ if __name__ == "__main__":
     img_gray_ref = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
 
     Ny_pix, Nx_pix = img_gray_ref.shape
+    print(Nx_pix)
     wind_R_pix, wind_L_pix = define_window(img_crop, resize_scale)
+    print(wind_L_pix)
+    print("-----")
     wind_L_j = int((wind_L_pix / Nx_pix) * Nx)
     wind_R_j = int((wind_R_pix / Nx_pix) * Nx)
     delta_wind_0 = wind_R_j - wind_L_j
     if delta_wind_0 % 2 != 0:
         wind_R_j = wind_R_j + 1
     delta_wind_0 = wind_R_j - wind_L_j
-    print(delta_wind_0)
+    print(Nx)
+    print(wind_L_j)
     Z_windowed_0 = Z[0, wind_L_j:wind_R_j]
     N_window = len(Z_windowed_0)
     D = sparse_D(N_window, dx)
@@ -59,8 +67,9 @@ if __name__ == "__main__":
     X_structure = []
     Y_structure = []
     Z_structure = []
-    for i in range(Ny):
-        if i != 0:
+    i_init = int(1 * Ny / 5)
+    for i in range(i_init, Ny):
+        if i != i_init:
             wind_L_j = wind_L_j_new
             wind_R_j = wind_R_j_new
         Z_windowed_i = Z[i, wind_L_j:wind_R_j]
@@ -101,6 +110,9 @@ if __name__ == "__main__":
     plt.plot(X_structure, Y_structure, color="g")
     plt.savefig(directory + '/field_tracked.png', dpi=200)
     plt.close()
+
+    plt.plot(Y_structure, X_structure)
+    plt.show()
 
 
 

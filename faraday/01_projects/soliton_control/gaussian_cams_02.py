@@ -7,9 +7,9 @@ if __name__ == "__main__":
     x = np.arange(0, 2 * np.pi, 0.01)
     y = np.empty_like(x)
 
-    m_1 = 4 / np.pi
-    m_2 = 8 / np.pi
-    m_3 = 10 / np.pi
+    m_1 = 6 / np.pi
+    m_2 = 12 / np.pi
+    m_3 = 15 / np.pi
 
     gtr = np.pi / 180
     zero = 27

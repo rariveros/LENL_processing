@@ -4,7 +4,7 @@ from back_process import *
 if __name__ == '__main__':
 
     ###    Abriendo archivos    ###
-    disco = 'E'
+    disco = 'D'
     initial_dir_data = str(disco) + ':/mnustes_science/experimental_data'
     root = tk.Tk()
     root.withdraw()
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     fps = 400
 
     period_fps = int(fps * (2 / f_i))
-    T_window_length = 3 * period_fps
+    T_window_length = 1 * period_fps
     N = len(T_s) // T_window_length
 
     Z_strobo = []
@@ -56,12 +56,13 @@ if __name__ == '__main__':
     gamma_str = str(gamma).split(".")[0] + '.' + str(gamma).split(".")[1][0:3]
     sigma_str = str(sigma).split(".")[0] + '.' + str(sigma).split(".")[1][0:1]
 
+    Z_strobo_np = filtro_superficie(Z_strobo_np, 2, "Y")
     np.savetxt(directory + '/T_stroboscopic.txt', T_strobo_np, delimiter=',')
     np.savetxt(directory + '/Z_mm_stroboscopic.txt', Z_strobo_np, delimiter=',')
 
 
     ###    Generando y guardando espaciotemporal de vista estroboscopica     ###
-    pcm = plt.pcolormesh(X_mm, T_strobo, Z_strobo_np, cmap='seismic', shading='auto')
+    pcm = plt.pcolormesh(X_mm, T_strobo, Z_strobo_np, cmap=parula_map, shading='auto')
     cbar = plt.colorbar(pcm, shrink=1)
     cbar.set_label('$|A_R(x, t)|$', rotation=0, size=13, labelpad=-27, y=1.1)
     plt.title('$\gamma_0 = ' + gamma_str + '\ f_i = ' + str(f_i) + '\ \\textrm{Hz}' +

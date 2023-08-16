@@ -29,6 +29,7 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 ## for Palatino and other serif fonts use:
 #rc('font',**{'family':'serif','serif':['Palatino']})
 rc('text', usetex=True)
+from matplotlib.animation import FuncAnimation, PillowWriter
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog
@@ -414,9 +415,10 @@ def define_window(img, scale):
     points = []
     cv2.setMouseCallback('image', click_event)
     cv2.waitKey(0)
-    window_left_0, window_right_0 = np.abs(points[-1][0] / scale), np.abs(points[-2][0] / scale)
+    window_left_0, window_right_0 = np.abs(points[-1][0] * 1), np.abs(points[-2][0] * 1)
+    t_init_pix = np.abs(points[-1][1])
     cv2.destroyAllWindows()
-    return window_left_0, window_right_0
+    return window_left_0, window_right_0, t_init_pix
 
 def sparse_DD(Nx, dx):
     data = np.ones((3, Nx))
@@ -458,6 +460,61 @@ def sparse_D(Nx, dx):
     D1 = sparse.lil_matrix(D1)
     D1[-1, 0] = 1 / dx
     return D1
+
+def sparse_D_4order(Nx, dx):
+    data = np.ones((5, Nx))
+    data[0] = 1 * data[0]
+    data[1] = - 8 * data[1]
+    data[2] = 0 * data[2]
+    data[3] = 8 * data[3]
+    data[4] = - 1 * data[4]
+    diags = [-2, -1, 0, 1, 2]
+    D1 = sparse.spdiags(data, diags, Nx, Nx) / (12 * dx)
+    D1 = sparse.lil_matrix(D1)
+    D1[-1, 0] = 8 / (12 * dx)
+    D1[-1, 1] = - 1 / (12 * dx)
+    D1[-2, 0] = - 1 / (12 * dx)
+
+    D1[0, -1] = - 8 / (12 * dx)
+    D1[0, -2] = 1 / (12 * dx)
+    D1[1, -1] = 1 / (12 * dx)
+    return D1
+
+def sparse_D_neumann_4order(Nx, dx):
+    data = np.ones((5, Nx))
+    data[0] = 1 * data[0]
+    data[1] = - 8 * data[1]
+    data[2] = 0 * data[2]
+    data[3] = 8 * data[3]
+    data[4] = - 1 * data[4]
+    diags = [-2, -1, 0, 1, 2]
+    D1 = sparse.spdiags(data, diags, Nx, Nx) / (12 * dx)
+    D1 = sparse.lil_matrix(D1)
+    D1[0, 0] = 0
+    D1[-1, -1] = 0
+    D1[1, 0] = 0
+    D1[-2, -1] = 0
+    return D1
+
+
+def sparse_DDD(Nx, dx):
+    data = np.ones((5, Nx))
+    data[0] = - 0.5 * data[0]
+    data[1] = data[1]
+    data[2] = 0 * data[2]
+    data[3] = - 1 * data[3]
+    data[4] = 0.5 * data[4]
+    diags = [-2, -1, 0, 1, 2]
+    D3 = sparse.spdiags(data, diags, Nx, Nx) / (dx ** 3)
+    D3 = sparse.lil_matrix(D3)
+    D3[-1, 0] = - 1 / (dx ** 3)
+    D3[-1, 1] = 0.5 / (dx ** 3)
+    D3[-2, 0] = 0.5 / (dx ** 3)
+
+    D3[0, -1] = 1 / (dx ** 3)
+    D3[0, -2] = - 0.5 / (dx ** 3)
+    D3[1, -1] = - 0.5 / (dx ** 3)
+    return D3
 
 ###    FILTER FUNCTIONS    ###
 
@@ -541,7 +598,7 @@ def wavelength_pattern(w, g, d, k_y):
 
 def fluid_pdnls_parameters(f_i, a_ang, d):
     g = 9790
-    l_y = 15
+    l_y = 16
     w = 2 * np.pi * (f_i / 2)
     k_y = np.pi / l_y
     k = k_y
