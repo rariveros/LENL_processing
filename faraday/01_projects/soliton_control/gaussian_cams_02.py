@@ -35,6 +35,7 @@ if __name__ == "__main__":
     ax.set_xticks(np.arange(0, 359, 15) * gtr)
     ax.plot(x, df)
     ax.plot(x, y, color='r')
+
     #ax.set_rticks([0.5, 1, 1.5, 2])  # Less radial ticks
     #ax.set_rlabel_position(-22.5)  # Move radial labels away from plotted line
     ax.grid(True)

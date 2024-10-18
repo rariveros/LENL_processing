@@ -5,7 +5,7 @@ from back_process import *
 if __name__ == "__main__":
 
     ### Definiendo parametros y eligiendo carpeta a detectar ###
-    disco = 'D:'
+    disco = 'C:'
     project_file = 'OSC'
     initial_dir_img = str(disco) + '/mnustes_science/images'
     initial_dir_data = str(disco) + '/mnustes_science/experimental_data'

@@ -1,3 +1,5 @@
+import numpy as np
+
 from directories import *
 from back_process import *
 from itertools import zip_longest
@@ -18,7 +20,8 @@ if __name__ == "__main__":
     root.withdraw()
     reference_image = filedialog.askopenfilename(parent=root, initialdir=directory, title='Reference Selection')
     img_reference = cv2.imread(str(reference_image))
-    data_type = "SIM"
+    data_type = "SIM_FER"
+
     if data_type == "SIM":
         Z_r = np.loadtxt(directory + '/field_real.txt', delimiter=',')
         Z_i = np.loadtxt(directory + '/field_img.txt', delimiter=',')
@@ -26,6 +29,12 @@ if __name__ == "__main__":
         y_grid = np.loadtxt(directory + '/T.txt', delimiter=',')
         Z_complex = Z_r + 1j * Z_i
         Z = np.absolute(Z_complex)
+        x_grid = x_grid.astype('float64')
+        Z = Z.astype('float64')
+    elif data_type == "SIM_FER":
+        Z = np.loadtxt(directory + '/Z.txt', delimiter=',')
+        x_grid = np.loadtxt(directory + '/X.txt', delimiter=',')
+        y_grid = np.loadtxt(directory + '/T.txt', delimiter=',')
         x_grid = x_grid.astype('float64')
         Z = Z.astype('float64')
     elif data_type == "EXP":
@@ -42,6 +51,7 @@ if __name__ == "__main__":
         Z = Z[1200:].reshape((Nt, Nx))
         x_grid = X[1200:1200 + 110]
         y_grid = T[1200::110]
+
     Nx = len(x_grid)
     Ny = len(y_grid)
     dx = x_grid[1] - x_grid[0]
@@ -64,7 +74,7 @@ if __name__ == "__main__":
     img_gray_ref = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
 
     Ny_pix, Nx_pix = img_gray_ref.shape
-    N_structures = 1
+    N_structures = 7
     window_info = []
     for k in range(N_structures):
         wind_R_pix, wind_L_pix, t_init_pix = define_window(img_crop, resize_scale)
@@ -142,10 +152,13 @@ if __name__ == "__main__":
     Xs = filtro_superficie(Xs, 200, "X")
     Dy = sparse_D_neumann_4order(Ny_effective, dy)
     DX = Dx(Dy, np.transpose(Xs))
-    mask_1 = (DX > 0.125)
-    mask_2 = (DX < 0.00)
-    DX[mask_1] = np.nan
-    DX[mask_2] = np.nan
+    #mask_1 = (DX > 2 * np.mean(DX))
+    #mask_2 = (DX < -2 * np.mean(DX))
+    #DX[mask_1] = np.nan
+    #DX[mask_2] = np.nan
+
+    print(DX)
+    print(np.transpose(Xs))
 
 
     np.savetxt(directory + '//J.txt', Js, delimiter=',')
@@ -153,6 +166,7 @@ if __name__ == "__main__":
     np.savetxt(directory + '//X_structure.txt', Xs, delimiter=',')
     np.savetxt(directory + '//Y_structure.txt', Ys, delimiter=',')
     np.savetxt(directory + '//Z_structure.txt', Zs, delimiter=',')
+    np.savetxt(directory + '//V_structure.txt', DX, delimiter=',')
 
     ### Visualizacion del diagrama espacio-temporal  ###
     pcm = plt.pcolormesh(x_grid, y_grid, Z, cmap=parula_map, shading='auto')
@@ -197,7 +211,7 @@ if __name__ == "__main__":
     plt.scatter(np.transpose(Xs), DX, color="k", s=1)
     plt.xlabel('$x\ (\\textrm{mm)}$', size='20')
     plt.ylabel('$v\ (\\textrm{mm/s})$', size='20')
-    #plt.ylim(0.05, 0.125)
+    plt.ylim(0, 5)
     plt.grid(linestyle='--', alpha=0.5)
     plt.savefig(directory + '//v(x).png', dpi=300)
     plt.close()

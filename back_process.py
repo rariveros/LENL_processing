@@ -598,7 +598,7 @@ def wavelength_pattern(w, g, d, k_y):
 
 def fluid_pdnls_parameters(f_i, a_ang, d):
     g = 9790
-    l_y = 16
+    l_y = 15
     w = 2 * np.pi * (f_i / 2)
     k_y = np.pi / l_y
     k = k_y
@@ -608,7 +608,7 @@ def fluid_pdnls_parameters(f_i, a_ang, d):
     alpha = (1 / (4 * k ** 2)) * (1 + k * d * ((1 - tau ** 2) / tau))  # término difusivo
     beta = (k ** 2 / 64) * (6 * tau ** 2 - 5 + 16 * tau ** (-2) - 9 * tau ** (-4))  # término no lineal
     nu = 0.5 * ((w / w_1) ** 2 - 1)
-    return alpha, beta, nu, gamma
+    return alpha, beta, nu, gamma, w_1 / (np.pi)
 
 
 def image_corrections(img, alpha, beta, gamma):
