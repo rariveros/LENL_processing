@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab3bf12b-4820-40fb-a8da-226157a255f0" name="Changes" comment="asssssssssssssasfd">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/dimerization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/freq_timer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/response_fit.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/faraday/02_detection/canny_beta_multiple.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/LENL_processing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LENL_processing.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/back_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view/stoboscopic_sd.py" beforeDir="false" afterPath="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view/stoboscopic_sd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view/stroboscopic_multiple.py" beforeDir="false" afterPath="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view/stroboscopic_multiple.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faraday/02_detection/canny_single_beta.py" beforeDir="false" afterPath="$PROJECT_DIR$/faraday/02_detection/canny_single_beta.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faraday/03_visualization/ST_diagrams/space_diagram_exp.py" beforeDir="false" afterPath="$PROJECT_DIR$/faraday/03_visualization/ST_diagrams/space_diagram_exp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faraday/tests/test_tracker/field_01/field.png" beforeDir="false" afterPath="$PROJECT_DIR$/faraday/tests/test_tracker/field_01/field.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +39,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.canny_beta_multiple">
+  <component name="RunManager" selected="Python.dimerization_multi">
     <configuration name="canny_beta_multiple" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LENL_processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -98,7 +84,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="freq_timer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="dimerization_multi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LENL_processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -111,29 +97,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/freq_timer.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="response_fit" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="LENL_processing" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/faraday/01_projects/PT/analyisis" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/response_fit.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faraday/01_projects/PT/analyisis/dimerization_multi.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -164,13 +128,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="stroboscopic_multiple" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="LENL_processing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view/stroboscopic_multiple.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.dimerization_multi" />
+        <item itemvalue="Python.stoboscopic_sd" />
+        <item itemvalue="Python.stroboscopic_multiple" />
         <item itemvalue="Python.canny_beta_multiple" />
         <item itemvalue="Python.canny_single_beta" />
-        <item itemvalue="Python.stoboscopic_sd" />
-        <item itemvalue="Python.freq_timer" />
-        <item itemvalue="Python.response_fit" />
       </list>
     </recent_temporary>
   </component>
@@ -197,7 +183,7 @@
       <workItem from="1742411342705" duration="2107000" />
       <workItem from="1742417764842" duration="666000" />
       <workItem from="1742425942296" duration="733000" />
-      <workItem from="1742430967396" duration="2417000" />
+      <workItem from="1742430967396" duration="5278000" />
     </task>
     <task id="LOCAL-00001" summary="asssssssssssssasfd">
       <created>1729263966868</created>
@@ -206,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1729263966868</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="asssssssssssssasfd">
+      <created>1742434234331</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742434234331</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,8 +226,10 @@
     <SUITE FILE_PATH="coverage/LENL_processing$animacion.coverage" NAME="animacion Coverage Results" MODIFIED="1729266267316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/soliton_control" />
     <SUITE FILE_PATH="coverage/LENL_processing$canny_single_beta_nuevo.coverage" NAME="canny_single_beta_nuevo Coverage Results" MODIFIED="1741977785975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/02_detection" />
     <SUITE FILE_PATH="coverage/LENL_processing$canny_single_beta.coverage" NAME="canny_single_beta Coverage Results" MODIFIED="1742431414837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/02_detection" />
-    <SUITE FILE_PATH="coverage/LENL_processing$stoboscopic_sd.coverage" NAME="stoboscopic_sd Coverage Results" MODIFIED="1742431036495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view" />
-    <SUITE FILE_PATH="coverage/LENL_processing$canny_beta_multiple.coverage" NAME="canny_beta_multiple Coverage Results" MODIFIED="1742432759792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/02_detection" />
+    <SUITE FILE_PATH="coverage/LENL_processing$stoboscopic_sd.coverage" NAME="stoboscopic_sd Coverage Results" MODIFIED="1742438724566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view" />
+    <SUITE FILE_PATH="coverage/LENL_processing$dimerization_multi.coverage" NAME="dimerization_multi Coverage Results" MODIFIED="1742438830968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/PT/analyisis" />
+    <SUITE FILE_PATH="coverage/LENL_processing$canny_beta_multiple.coverage" NAME="canny_beta_multiple Coverage Results" MODIFIED="1742434118962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/02_detection" />
+    <SUITE FILE_PATH="coverage/LENL_processing$stroboscopic_multiple.coverage" NAME="stroboscopic_multiple Coverage Results" MODIFIED="1742437853858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/stroboscopic_view" />
     <SUITE FILE_PATH="coverage/LENL_processing$dimerization.coverage" NAME="dimerization Coverage Results" MODIFIED="1741989904534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/PT/analyisis" />
     <SUITE FILE_PATH="coverage/LENL_processing$response_fit.coverage" NAME="response_fit Coverage Results" MODIFIED="1742070991265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/PT/analyisis" />
     <SUITE FILE_PATH="coverage/LENL_processing$freq_timer.coverage" NAME="freq_timer Coverage Results" MODIFIED="1742156498374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faraday/01_projects/PT/analyisis" />
