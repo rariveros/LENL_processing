@@ -1,26 +1,21 @@
-from directories import *
 from back_process import *
+
 
 if __name__ == "__main__":
 
     ### Definiendo parametros y eligiendo carpeta a detectar ###
-    disco = 'C:'
-    project_file = 'rabi_03_24_25_ver2.0'
-    initial_dir_img = str(disco) + '/mnustes_science/images'
-    initial_dir_data = str(disco) + '/mnustes_science/experimental_data'
-
+    disco = 'D:'
+    project_file = 'soliton_control'
+    initial_dir_img = str(disco) + '/mnustes_science/images/img_lab/soliton_control/espacio_parametros'
+    initial_dir_data = str(disco) + '/mnustes_science/experimental_data/soliton_control/espacio_parametros/'
     root = tk.Tk()
     root.withdraw()
     file = filedialog.askdirectory(parent=root, initialdir=initial_dir_img, title='Elección de carpeta')
     parent_file_name = os.path.basename(file)
-    save_directory = disco + '/mnustes_science/experimental_data/' + project_file + '/' + parent_file_name
-
+    save_directory = disco + '/mnustes_science/experimental_data/soliton_control/espacio_parametros/' + '/' + parent_file_name
     IMG_names = os.listdir(file)
     N_img = len(IMG_names)
-
-    resize_scale = 0.5 * 1.5
-    thresh = 200
-    fps = 150
+    resize_scale = 0.85
 
     def nan_helper(y):
         return np.isnan(y), lambda z: z.nonzero()[0]
@@ -31,12 +26,14 @@ if __name__ == "__main__":
     reference_image = filedialog.askopenfilename(parent=root, initialdir=file, title='Reference Selection')
     img_reference = cv2.imread(str(reference_image))
 
+
     ### Resize image for ROI selection ###
     h, w, c = img_reference.shape
     h_resized, w_resized = h * resize_scale,  w * resize_scale
     resized_img = cv2.resize(img_reference, (int(w_resized), int(h_resized)))
     cut_coords = cv2.selectROI(resized_img)
     cv2.destroyAllWindows()
+
 
     FC_mm = pix_to_mm(resized_img, resize_scale)
     IL_L, IL_R = injection_length(resized_img, resize_scale)
@@ -50,35 +47,67 @@ if __name__ == "__main__":
     img_crop = img_reference[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
     img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
     Ny, Nx = img_gray.shape
-    threshold_01 = 130  #130 normal 190 si sale mal
-    threshold_02 = 60 # 60 normal
+    threshold_01 = 240
+    threshold_02 = 200
     radius = 20
-
-    ### Binarize images with 0 and 1 ###
-    img_binarized = cv2.threshold(img_gray, thresh, 255, cv2.THRESH_BINARY)[1]
-    img_binary = img_binarized / 255
+    gamma = 1.0 #1.0
+    alpha = 1.0 #1.0
+    beta = 0.0 #0.0
 
     ### Se genera un operador similar a Dx sparse y un vector contador ###
-    D = sparse_D(Ny, 1)
     enumerate_array = np.arange(Ny)[::-1]
     ones_array = np.ones(Ny)
+
     # Midiendo tiempo inicial
     now = datetime.datetime.now()
     print('Hora de Inicio: ' + str(now.hour) + ':' + str(now.minute) + ':' + str(now.second))
     time_init = time.time()
+
     ### Iteración de detección ###
     Z = []
+    plot = "no"
     for i in range(N_img):
         img_i = cv2.imread(file + '/' + IMG_names[i])
         img_crop = img_i[y_1:(y_1 + y_2), x_1:(x_1 + x_2)]
-        img_gray = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
-        img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
-        img_canned = cv2.Canny(img_blur, threshold_01, threshold_02)
-        #plt.plot(img_canned[:, i])
-        #plt.imshow(img_canned)
-        #plt.show()
+        img_crop = cv2.cvtColor(img_crop, cv2.COLOR_BGR2GRAY)
+        #img_processed = image_corrections(img_crop, alpha, beta, gamma)
+        img_processed = img_crop
+        img_blur = cv2.GaussianBlur(img_processed, (7, 7), 0)
+
+        # ADAPTATIVE BINARIZATION / SIMPLE BINARIZATION
+        hist = cv2.calcHist([img_blur], [0], None, [256], [0, 256])
+        hist_norm = hist.ravel() / hist.sum()
+        Q = hist_norm.cumsum()
+        bins = np.arange(256)
+        fn_min = np.inf
+        thresh = -1
+        for j in range(1, 256):
+            p1, p2 = np.hsplit(hist_norm, [j])  # probabilities
+            q1, q2 = Q[j], Q[255] - Q[j]  # cum sum of classes
+            if q1 < 1.e-6 or q2 < 1.e-6:
+                continue
+            b1, b2 = np.hsplit(bins, [j])  # weights
+            # finding means and variances
+            m1, m2 = np.sum(p1 * b1) / q1, np.sum(p2 * b2) / q2
+            v1, v2 = np.sum(((b1 - m1) ** 2) * p1) / q1, np.sum(((b2 - m2) ** 2) * p2) / q2
+            # calculates the minimization function
+            fn = v1 * q1 + v2 * q2
+            if fn < fn_min:
+                fn_min = fn
+            thresh = j
+        ret, img_processed = cv2.threshold(img_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        #img_processed = cv2.adaptiveThreshold(img_processed, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+        #cret, img_processed = cv2.threshold(img_processed, 50, 255, cv2.THRESH_BINARY)
+        img_canned = cv2.Canny(img_processed, threshold_01, threshold_02)
+        if plot == "si" and i % 10 == 0:
+            #AGREGAR GIF PARA 3 PERIODOS DE CONFIRMACIÓN DE DETECCION
+            fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1)
+            ax1.imshow(img_crop, cmap='gray', vmin=0, vmax=255)
+            ax2.imshow(img_processed, cmap='gray', vmin=0, vmax=255)
+            ax3.imshow(img_canned, cmap='viridis', vmin=0, vmax=255)
+            plt.show()
+            plt.close()
         Z_i = []
-        #print('i=' + str(i))
         for j in range(Nx):
             normalization = np.dot(ones_array, img_canned[:, j])
             if normalization != 255:
@@ -91,10 +120,6 @@ if __name__ == "__main__":
         Z_i[nans] = np.interp(x(nans), x(~nans), Z_i[~nans])
         Z.append(Z_i)
     Z = np.array(Z)
-    #for i in range(len(Z[:, 0]) - 1):
-    #    for j in range(len(Z[0, :]) - 2):
-    #        if Z[i, 1 + j] - Z[i, 1 + j + 1] > radius:
-    #            Z[i, 1 + j + 1] = Z[i, 1 + j]
 
     one_vect = np.ones(N_img)
     Z_leveled = np.zeros((N_img, Nx))
@@ -106,8 +131,10 @@ if __name__ == "__main__":
     print('Hora de Término: ' + str(now.hour) + ':' + str(now.minute) + ':' + str(now.second))
     time_fin = time.time()
     print(str(time_fin - time_init) + ' seg')
+    print(parent_file_name)
 
     ### Definiendo espacio-temporal en numpy en pixeles y mm ##
+    fps = 400
     X = np.arange(Nx)
     X_mm = FC_mm * X - (FC_mm * X[-1] / 2) * np.ones(Nx)
     IL_L = FC_mm * IL_L - (FC_mm * X[-1] / 2)
@@ -138,9 +165,6 @@ if __name__ == "__main__":
     plt.xlim([X_mm[0], X_mm[-1]])
     plt.xlabel('$x$', size='20')
     plt.ylabel('$t$', size='20')
-    #plt.plot([IL_L, IL_R], [T_s[-1] / 10, T_s[-1] / 10], color='r')
-    #plt.plot([IL_L, IL_L], [T_s[-1] / 10 - T_s[-1] / 25, T_s[-1] / 10 + T_s[-1] / 25], color='r')
-    #plt.plot([IL_R, IL_R], [T_s[-1] / 10 - T_s[-1] / 25, T_s[-1] / 10 + T_s[-1] / 25], color='r')
     plt.grid(linestyle='--', alpha=0.5)
     plt.savefig(save_directory + '/water_level.png', dpi=1000)
     plt.close()

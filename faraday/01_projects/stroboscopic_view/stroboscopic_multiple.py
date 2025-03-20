@@ -28,7 +28,7 @@ if __name__ == '__main__':
         a = float(name_list[0].split("=")[-1])
         forcing_freq = float(name_list[1].split("=")[-1])
         GAMMA_0 = int(((((forcing_freq / 2) / (2 * np.pi)) ** 2) * (a / 12) * 0.5) * 100) * 0.01
-        fps = 400
+        fps = 150
         period_fps = int(fps * (2 / forcing_freq))
         period_error_range = 8
 

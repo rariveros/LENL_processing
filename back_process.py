@@ -1,5 +1,5 @@
 import cv2
-import pandas as pd
+#import pandas as pd
 import numpy as np
 import scipy as sp
 import matplotlib
@@ -19,16 +19,22 @@ from scipy.interpolate import CubicSpline as CS
 from scipy.signal import hilbert, chirp
 from scipy.fft import rfft, rfftfreq
 import scipy.sparse as sparse
+from scipy import integrate
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
 from matplotlib.animation import FuncAnimation
 from matplotlib.colors import TwoSlopeNorm
 from matplotlib import rc
 #plt.rcParams['animation.ffmpeg_path'] = "C:/Users/rariv/ffmpeg/bin/ffmpeg.exe"
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+#rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 ## for Palatino and other serif fonts use:
 #rc('font',**{'family':'serif','serif':['Palatino']})
-rc('text', usetex=True)
+#rc('text', usetex=True)
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",
+})
 from matplotlib.animation import FuncAnimation, PillowWriter
 from tkinter import *
 import tkinter as tk
@@ -598,7 +604,7 @@ def wavelength_pattern(w, g, d, k_y):
 
 def fluid_pdnls_parameters(f_i, a_ang, d):
     g = 9790
-    l_y = 15
+    l_y = 16
     w = 2 * np.pi * (f_i / 2)
     k_y = np.pi / l_y
     k = k_y
