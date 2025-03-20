@@ -6,7 +6,7 @@ from back_process import *
 if __name__ == '__main__':
 
     ###    Abriendo archivos    ###
-    disco = 'C:'
+    disco = 'D:'
     initial_dir_data = str(disco) + '/mnustes_science/experimental_data'
     root = tk.Tk()
     root.withdraw()
