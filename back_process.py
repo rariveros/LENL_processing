@@ -624,3 +624,27 @@ def image_corrections(img, alpha, beta, gamma):
     res = cv2.LUT(img, lookUpTable)
     res = cv2.convertScaleAbs(res, alpha=alpha, beta=beta)
     return res
+
+def max_finder(Z, t_grid, Nt, dt):
+    D = sparse_D_neumann_4order(Nt, dt)
+    DD = sparse_DD_neumann(Nt, dt)
+
+    #print(np.transpose(Z).shape)
+    #print(Nt)
+
+    D1_Z = D.dot(np.transpose(Z))
+    D2_Z = DD.dot(np.transpose(Z))
+
+    tau_L_points_max = []
+    Z_points_max = []
+    I_max = []
+    for i in range(Nt):
+        if np.sign(D1_Z[i]) != np.sign(D1_Z[i - 1]) and D2_Z[i] < 0 and i != 0 and np.sign(D1_Z[i]) + np.sign(
+                D1_Z[i - 1]) != 1:
+            tau_L_points_max.append(t_grid[i])
+            Z_points_max.append(Z[i])
+            I_max.append(i)
+    Z_points_max = np.array(Z_points_max)
+    tau_L_points_max = np.array(tau_L_points_max)
+    I_max = np.array(I_max)
+    return Z_points_max, tau_L_points_max, I_max
