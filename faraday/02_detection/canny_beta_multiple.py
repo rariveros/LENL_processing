@@ -5,7 +5,7 @@ if __name__ == "__main__":
 
     ### Definiendo parametros y eligiendo carpeta a detectar ###
     disco = 'C:'
-    project_file = 'rabi_03_24_ver2.0'
+    project_file = 'rabi_04_16'
     initial_dir_img = str(disco) + '/mnustes_science/images'
     initial_dir_data = str(disco) + '/mnustes_science/experimental_data'
 

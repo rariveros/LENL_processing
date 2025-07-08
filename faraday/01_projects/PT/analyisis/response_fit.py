@@ -20,13 +20,13 @@ if __name__ == '__main__':
     X = np.loadtxt(directory + '/X_mm.txt', delimiter=',')
     Z_mean = np.mean(Z, axis=0)
 
-    parameters, covariance = curve_fit(biGauss, X, Z_mean, bounds=([0.4, 0.4, 10, -30, 1, 1], [0.6, 0.6, 30, -10, 20, 20]))
+    parameters, covariance = curve_fit(biGauss, X, Z_mean, bounds=([2.5, 2.5, 10, -50, 1, 1], [3.0, 3.0, 50, -10, 30, 30]))
     print(parameters)
     AL, AR, x0L, x0R, sigmaL, sigmaR = parameters
     fit_y = biGauss(X, AL, AR, x0L, x0R, sigmaL, sigmaR)
     plt.plot(X, Z_mean, color="k", label='EXP', lw=3)
-    plt.plot(X, Gauss(X, AL, x0L, sigmaL), color="r", ls="--", label='fit', lw=2)
-    plt.plot(X, Gauss(X, AR, x0R, sigmaR), color="r", ls="--", label='fit', lw=2)
-    plt.plot(X, fit_y, '-', color="r", label='fit', lw=2)
-    plt.legend()
+    #plt.plot(X, Gauss(X, AL, x0L, sigmaL), color="b", ls="--", lw=2)
+    #plt.plot(X, Gauss(X, AR, x0R, sigmaR), color="r", ls="--", lw=2)
+    #plt.plot(X, fit_y, '-', color="g", lw=2)
+    #plt.title("$AL, AR, x0L, x0R, sigL, sigR =$" + str(parameters))
     plt.show()

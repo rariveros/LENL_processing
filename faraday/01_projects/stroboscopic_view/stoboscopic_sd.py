@@ -11,12 +11,10 @@ if __name__ == '__main__':
     directory = filedialog.askdirectory(parent=root, initialdir=initial_dir_data, title='Elección de carpeta')
 
     X_mm = np.loadtxt(directory + '/X_mm.txt', delimiter=',')
-    X_mm = X_mm #* (30 / 40)
     T_s = np.loadtxt(directory + '/T_s.txt', delimiter=',')
     Z_mm = np.loadtxt(directory + '/Z_mm.txt', delimiter=',')
 
     ###    Obteniendo información de medidas experimentales    ###
-    zero_fix = 'si'  # Activar para solitones, no para patrones
 
     Nx = len(X_mm)
     Nt = len(T_s)
@@ -80,6 +78,7 @@ if __name__ == '__main__':
     plt.title('$\gamma_0 = ' + gamma_str + '\ f_i = ' + str(f_i) + '\ \\textrm{Hz}' +
               '\ \\alpha = ' + alpha_str  + '\ \\textrm{mm}^{2}' + '\ \\beta = ' + beta_str + '\ \\nu = ' + nu_str + '$', size='10')
     plt.xlim([X_mm[0], X_mm[-1]])
+    #plt.ylim(150, 200)
     plt.xlabel('$x$', size='20')
     plt.ylabel('$t$', size='20')
     plt.grid(linestyle='--', alpha=0.5)
